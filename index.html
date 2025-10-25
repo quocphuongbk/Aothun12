@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THỬ ÁO THUN - TÂN PHƯƠNG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #8B4513 0%, #D2691E 50%, #CD853F 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: rgba(139, 69, 19, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .header h1 {
+            color: #FFD700;
+            font-size: 1.8em;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            line-height: 1.2;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .subtitle {
+            color: #FFDAB9;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-top: 12px;
+            margin-bottom: 8px;
+            white-space: nowrap;
+        }
+
+        .contact-info {
+            color: #FFE4B5;
+            font-size: 0.95em;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 2px solid rgba(255, 215, 0, 0.3);
+            line-height: 1.5;
+        }
+
+        .contact-info p {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .contact-info a {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .api-section {
+            background: rgba(255, 228, 196, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 3px solid #FF8C00;
+        }
+
+        .api-section h3 {
+            color: #8B4513;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .api-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .api-input-group label {
+            color: #654321;
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .api-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #D2691E;
+            border-radius: 8px;
+            font-size: 1em;
+            min-width: 300px;
+        }
+
+        .instructions {
+            background: rgba(255, 228, 196, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #FF8C00;
+        }
+
+        .instructions h3 {
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .instructions ol {
+            color: #654321;
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 3px solid #D2691E;
+        }
+
+        .upload-section h2 {
+            color: #8B4513;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        .upload-box {
+            border: 3px dashed #D2691E;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 228, 196, 0.3);
+            position: relative;
+            overflow: hidden;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-box:hover {
+            border-color: #FF8C00;
+            background: rgba(255, 228, 196, 0.5);
+            transform: scale(1.02);
+        }
+
+        .upload-box.active {
+            border-color: #FF4500;
+            background: rgba(255, 140, 0, 0.2);
+        }
+
+        .upload-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+        }
+
+        .upload-box p {
+            color: #8B4513;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+
+        .preview-container {
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 350px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: none;
+        }
+
+        .preview-image.show {
+            display: block;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .btn-process {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #FF8C00 0%, #FF4500 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(255, 69, 0, 0.4);
+            margin-top: 20px;
+            letter-spacing: 1px;
+        }
+
+        .btn-process:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6);
+        }
+
+        .btn-process:disabled {
+            background: #CCC;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .result-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 3px solid #D2691E;
+            text-align: center;
+            display: none;
+        }
+
+        .result-section.show {
+            display: block;
+        }
+
+        .result-section h2 {
+            color: #8B4513;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .result-image {
+            max-width: 100%;
+            max-height: 600px;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+
+        .loading {
+            display: none;
+            color: #FF8C00;
+            font-size: 1.2em;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #FFE4B5;
+            border-top: 4px solid #FF8C00;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            color: #8B4513;
+        }
+
+        .btn-download {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #228B22 0%, #32CD32 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(34, 139, 34, 0.4);
+            margin: 10px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(34, 139, 34, 0.6);
+        }
+
+        .btn-reset {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #DC143C 0%, #FF1493 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+            margin: 10px;
+        }
+
+        .btn-reset:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(220, 20, 60, 0.6);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #FFE4B5;
+            font-size: 0.9em;
+            background: rgba(139, 69, 19, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .error-message {
+            background: #FFE4E1;
+            border: 2px solid #DC143C;
+            color: #8B0000;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #F0FFF0;
+            border: 2px solid #228B22;
+            color: #006400;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.3em;
+                letter-spacing: 2px;
+                white-space: normal;
+            }
+
+            .subtitle {
+                white-space: normal;
+                font-size: 0.8em;
+            }
+
+            .contact-info {
+                font-size: 0.85em;
+            }
+
+            .contact-info p {
+                white-space: normal;
+            }
+
+            .api-input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .api-input-group input {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TOOL AI THỬ ÁO THUN TÂN PHƯƠNG</h1>
+            <p class="subtitle">Ứng dụng ghép mockup áo thun với chính bạn</p>
+            <div class="contact-info">
+                <p>📞 Tân Phương: <a href="tel:0978570681">0978.570.681</a> | 🌐 Website: <a href="https://tanphuong.vn" target="_blank">tanphuong.vn</a> - <a href="https://cuongphat.vn" target="_blank">cuongphat.vn</a></p>
+            </div>
+        </div>
+
+        <div class="api-section">
+            <h3>🔑 Mật khẩu</h3>
+            <div class="api-input-group">
+                <label>Mật khẩu:</label>
+                <input type="password" id="apiToken" placeholder="Nhập mật khẩu">
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Hướng dẫn sử dụng:</h3>
+            <ol>
+                <li><strong>Nhập mật khẩu</strong> vào ô phía trên</li>
+                <li><strong>Tải ảnh chân dung</strong> của bạn (chụp thẳng, toàn thân hoặc nửa thân)</li>
+                <li><strong>Tải ảnh áo cần mockup</strong> (AI tự động nhận diện và tách áo từ mockup)</li>
+                <li><strong>Nhấn "HÔ BIẾN ÁO LÊN NGƯỜI"</strong> - AI sẽ xử lý (khoảng 30-60 giây)</li>
+                <li><strong>Tải xuống kết quả</strong> siêu chân thực!</li>
+            </ol>
+        </div>
+
+        <div class="main-content">
+            <div class="upload-section">
+                <h2>📸 Ảnh Chân Dung</h2>
+                <div class="upload-box" id="personUpload">
+                    <div class="upload-icon">👤</div>
+                    <p>Nhấn để tải ảnh của bạn</p>
+                    <input type="file" id="personInput" accept="image/*">
+                    <div class="preview-container">
+                        <img id="personPreview" class="preview-image">
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-section">
+                <h2>👕 Ảnh Áo Cần Mockup</h2>
+                <div class="upload-box" id="shirtUpload">
+                    <div class="upload-icon">🎨</div>
+                    <p>Nhấn để tải mockup áo (AI tự tách áo)</p>
+                    <input type="file" id="shirtInput" accept="image/*">
+                    <div class="preview-container">
+                        <img id="shirtPreview" class="preview-image">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+        <div class="success-message" id="successMessage"></div>
+
+        <button class="btn-process" id="processBtn" disabled>⚡ HÔ BIẾN ÁO LÊN NGƯỜI</button>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>🤖 AI đang xử lý và ghép ảnh chân thực...</p>
+            <p class="progress-text" id="progressText">Đang upload ảnh...</p>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <h2>✨ Kết Quả Siêu Chân Thực</h2>
+            <img id="resultImage" class="result-image">
+            <div>
+                <button class="btn-download" id="downloadBtn">💾 TẢI XUỐNG KẾT QUẢ</button>
+                <button class="btn-reset" id="resetBtn">🔄 THỬ LẠI</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2025 Tân Phương - Ứng dụng ghép mockup áo thun AI</p>
+        </div>
+    </div>
+
+    <script>
+        let personImageFile = null;
+        let shirtImageFile = null;
+
+        // Setup upload handlers
+        document.getElementById('personUpload').addEventListener('click', () => {
+            document.getElementById('personInput').click();
+        });
+
+        document.getElementById('personInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                personImageFile = file;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.getElementById('personPreview').src = event.target.result;
+                    document.getElementById('personPreview').classList.add('show');
+                    document.getElementById('personUpload').classList.add('active');
+                    checkReady();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('shirtUpload').addEventListener('click', () => {
+            document.getElementById('shirtInput').click();
+        });
+
+        document.getElementById('shirtInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                shirtImageFile = file;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    document.getElementById('shirtPreview').src = event.target.result;
+                    document.getElementById('shirtPreview').classList.add('show');
+                    document.getElementById('shirtUpload').classList.add('active');
+                    checkReady();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function checkReady() {
+            const apiToken = document.getElementById('apiToken').value.trim();
+            if (personImageFile && shirtImageFile && apiToken) {
+                document.getElementById('processBtn').disabled = false;
+            }
+        }
+
+        document.getElementById('apiToken').addEventListener('input', checkReady);
+
+        // Process button
+        document.getElementById('processBtn').addEventListener('click', async () => {
+            const apiToken = document.getElementById('apiToken').value.trim();
+            
+            if (!apiToken) {
+                showError('Vui lòng nhập mật khẩu!');
+                return;
+            }
+
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('processBtn').disabled = true;
+            document.getElementById('errorMessage').classList.remove('show');
+            document.getElementById('resultSection').classList.remove('show');
+
+            try {
+                // Convert images to base64
+                updateProgress('Đang chuẩn bị ảnh...');
+                const personBase64 = await fileToBase64(personImageFile);
+                const shirtBase64 = await fileToBase64(shirtImageFile);
+
+                // Call Replicate API
+                updateProgress('Đang gọi AI xử lý...');
+                const prediction = await createPrediction(apiToken, personBase64, shirtBase64);
+
+                // Poll for result
+                updateProgress('AI đang ghép ảnh (30-60 giây)...');
+                const result = await waitForResult(apiToken, prediction.id);
+
+                // Display result
+                if (result.output) {
+                    document.getElementById('resultImage').src = result.output;
+                    document.getElementById('resultSection').classList.add('show');
+                    document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
+                    showSuccess('✅ Ghép ảnh thành công! Kết quả cực kỳ chân thực!');
+                } else {
+                    throw new Error('Không nhận được kết quả từ AI');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('❌ Lỗi: ' + error.message);
+            } finally {
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('processBtn').disabled = false;
+            }
+        });
+
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function createPrediction(apiToken, personImage, shirtImage) {
+            try {
+                console.log('🔑 API Token length:', apiToken.length);
+                console.log('📸 Person image size:', personImage.length);
+                console.log('👕 Shirt image size:', shirtImage.length);
+                console.log('🚀 Calling Replicate API...');
+                
+                const response = await fetch('https://api.replicate.com/v1/predictions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Token ${apiToken}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'wait'
+                    },
+                    body: JSON.stringify({
+                        version: "c871bb9b046607b680449ecbae55fd8c6d945e0a1948644bf2361b3d021d3ff4",
+                        input: {
+                            human_img: personImage,
+                            garm_img: shirtImage,
+                            garment_des: "a t-shirt",
+                            category: "upper_body"
+                        }
+                    })
+                });
+
+                console.log('📡 Response status:', response.status);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('❌ API Error:', errorText);
+                    let errorMessage = 'Lỗi kết nối API';
+                    
+                    try {
+                        const errorJson = JSON.parse(errorText);
+                        errorMessage = errorJson.detail || errorJson.message || errorMessage;
+                    } catch (e) {
+                        errorMessage = `HTTP ${response.status}: ${errorText.substring(0, 100)}`;
+                    }
+                    
+                    throw new Error(errorMessage);
+                }
+
+                const result = await response.json();
+                console.log('✅ API Response:', result);
+                return result;
+                
+            } catch (error) {
+                console.error('💥 Create Prediction Error:', error);
+                if (error.message.includes('Failed to fetch')) {
+                    throw new Error('Không thể kết nối đến API. Có thể do:\n1. Mạng internet không ổn định\n2. API bị chặn bởi hosting\n3. CORS policy\n\nThử deploy lên Vercel hoặc GitHub Pages!');
+                }
+                throw error;
+            }
+        }
+
+        async function waitForResult(apiToken, predictionId) {
+            const maxAttempts = 60;
+            let attempts = 0;
+
+            while (attempts < maxAttempts) {
+                const response = await fetch(`https://api.replicate.com/v1/predictions/${predictionId}`, {
+                    headers: {
+                        'Authorization': `Token ${apiToken}`,
+                    }
+                });
+
+                const prediction = await response.json();
+
+                if (prediction.status === 'succeeded') {
+                    return prediction;
+                }
+
+                if (prediction.status === 'failed') {
+                    throw new Error('AI xử lý thất bại. Thử lại với ảnh khác!');
+                }
+
+                updateProgress(`AI đang xử lý... (${attempts + 1}/${maxAttempts})`);
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                attempts++;
+            }
+
+            throw new Error('Timeout - AI xử lý quá lâu');
+        }
+
+        function updateProgress(message) {
+            document.getElementById('progressText').textContent = message;
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('errorMessage');
+            errorEl.textContent = message;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
+
+        function showSuccess(message) {
+            const successEl = document.getElementById('successMessage');
+            successEl.textContent = message;
+            successEl.classList.add('show');
+            setTimeout(() => successEl.classList.remove('show'), 5000);
+        }
+
+        // Download button
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const img = document.getElementById('resultImage');
+            const link = document.createElement('a');
+            link.href = img.src;
+            link.download = 'thu-ao-thun-tan-phuong.png';
+            link.click();
+        });
+
+        // Reset button
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>
